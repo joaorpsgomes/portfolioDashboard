@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  database:
+    build:
+      context: .
+      dockerfile: dbFiles/Dockerfile
+    environment:
+      DOCKER_NAME: database
+    # Other configurations for service1 if needed
+
+  application:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: /bin/sh -c "sleep 2 && ./build/src/portfolioDashboard"
+    environment:
+      DOCKER_NAME: application
+
+    # Other configurations for service2 if needed
