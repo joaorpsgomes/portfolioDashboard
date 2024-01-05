@@ -1,0 +1,10 @@
+//
+// Created by joaorpsgomes on 1/5/24.
+//
+
+#ifndef PORTFOLIODASHBOARD_CRYPTOUPDATER_H
+#define PORTFOLIODASHBOARD_CRYPTOUPDATER_H
+
+class cryptoUpdater {};
+
+#endif // PORTFOLIODASHBOARD_CRYPTOUPDATER_H
