@@ -34,3 +34,6 @@
 # Clion folders
 .idea/
 cmake-*
+
+# Documentation
+doc/
