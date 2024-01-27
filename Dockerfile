@@ -8,7 +8,9 @@ RUN apt-get update && apt-get install -y \
     make \
     libsystemd-dev \
     libmysqlcppconn-dev \
-    mysql-server
+    mysql-server \
+    nlohmann-json3-dev \
+    libcurl4-openssl-dev
 
 # Set the working directory in the container
 WORKDIR /app
@@ -29,4 +31,4 @@ RUN cd build && make
 EXPOSE 3306
 
 # Specify the command to run your application
-#CMD ["./build/src/portfolioDashboard"]
+CMD ["./build/src/portfolioDashboard"]
