@@ -7,7 +7,9 @@ services:
       dockerfile: dbFiles/Dockerfile
     environment:
       DOCKER_NAME: database
-    # Other configurations for service1 if needed
+    ports:
+      - "3306:3306"
+      # Other configurations for service1 if needed
 
   application:
     build:
@@ -16,5 +18,7 @@ services:
     entrypoint: /bin/sh -c "sleep 2 && ./build/src/portfolioDashboard"
     environment:
       DOCKER_NAME: application
-
-    # Other configurations for service2 if needed
+    depends_on:
+      database:
+        condition: service_started
+      # Other configurations for service2 if needed

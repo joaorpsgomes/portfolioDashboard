@@ -3,6 +3,7 @@
 
 #include "assetStructs.h"
 #include "logger.h"
+#include "databaseWrapper.h"
 #include <curl/curl.h>
 #include <map>
 #include <nlohmann/json.hpp>
@@ -22,13 +23,15 @@ public:
 
     void updateAssetsValue();
 
-    Result fetchAssetValue(const std::string &cryptoName, nlohmann::json &response) const;
-
     cryptoUpdater::Result fetchEuroValue(nlohmann::json &response) const;
+
+private:
+    Result fetchAssetValue(const std::string &cryptoName, nlohmann::json &response) const;
 
 private:
     uniqueAssetList cryptoUniqueList;
     std::shared_ptr<logger> mLogger;
+    std::unique_ptr<databaseWrapper> dbWrapper;
 };
 
 #endif // CRYPTOUPDATER_H
