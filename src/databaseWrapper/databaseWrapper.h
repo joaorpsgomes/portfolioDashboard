@@ -5,6 +5,7 @@
 #include <cppconn/prepared_statement.h>
 #include <mysql_driver.h>
 #include <variant>
+#include <vector>
 
 using tableEntries = std::variant<long double, int, std::string>;
 
