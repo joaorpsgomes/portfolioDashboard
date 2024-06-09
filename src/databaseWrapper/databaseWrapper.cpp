@@ -8,7 +8,7 @@ databaseWrapper::databaseWrapper() {
         mDriver = sql::mysql::get_mysql_driver_instance();
         const char *dockerEnv = std::getenv("DOCKER_NAME");
         if (dockerEnv != nullptr) {
-            mCon = mDriver->connect("database", "root", "root");
+            mCon = mDriver->connect("portfoliodashboard_database_1", "root", "root");
         } else {
             mCon = mDriver->connect("localhost", "root", "root");
         }

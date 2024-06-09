@@ -15,6 +15,7 @@ void cryptoUpdater::updateAssetsMetadata() {
 // Input: Name, Value invested, units, type
 void cryptoUpdater::updateAssetsValue() {
     updateAssetsMetadata();
+    dbWrapper = std::make_unique<databaseWrapper>();
     for (const auto &[cryptoName, cryptoData] : cryptoUniqueList) {
         nlohmann::json response;
         double value;
@@ -22,8 +23,15 @@ void cryptoUpdater::updateAssetsValue() {
         switch (fetchAssetValue(cryptoName, response)) {
         case SUCCESS:
             name = response["id"].get<std::string>().c_str();
-            value = std::stod(response["priceUsd"].get<std::string>())*usd2eurRate;
-            mLogger->logInfo("%s values: %.2f",name.c_str(),value);
+            value = std::stod(response["priceUsd"].get<std::string>()) * usd2eurRate;
+            mLogger->logInfo("%s values: %.2f", name.c_str(), value);
+            {
+                std::map<std::string, tableEntries> entry;
+                entry.insert(std::pair<std::string, tableEntries>("Name", cryptoName+std::to_string(static_cast<int>(value))));
+                entry.insert(std::pair<std::string, tableEntries>("Value", static_cast<int>(value)));
+                entry.insert(std::pair<std::string, tableEntries>("Type", "Crypto"));
+                dbWrapper->insertInTable("portefolioItemsList", entry);
+            }
             break;
         case FAILED_CURL_CONNECTION:
             break;
@@ -42,7 +50,6 @@ cryptoUpdater::Result cryptoUpdater::fetchAssetValue(const std::string &cryptoNa
 
     // Set the URL to the CoinGecko API endpoint for Bitcoin's price
     std::string baseUrl = "https://api.coincap.io/v2/assets/";
-    curl = curl_easy_init();
     // Set the callback function to handle the curlResponse
     curl_easy_setopt(
         curl, CURLOPT_WRITEFUNCTION, +[](void *contents, size_t size, size_t nmemb, std::string *output) -> size_t {

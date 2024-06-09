@@ -8,3 +8,5 @@ ENV MYSQL_PASSWORD=root
 
 # Expose the MySQL port
 EXPOSE 3306
+
+COPY dbFiles/portefolio_data.sql /docker-entrypoint-initdb.d/
